@@ -178,8 +178,9 @@ const App: React.FC = () => {
     <div className="min-h-screen bg-lavender-50/50 font-sans text-slate-800">
       <Navigation activeTab={activeTab} onTabChange={setActiveTab} />
       
-      <main className="min-h-screen transition-all duration-300 pt-16">
-        <div className="max-w-4xl mx-auto px-6 py-10 lg:py-12">
+      {/* Increased top padding to accommodate the taller mobile header */}
+      <main className="min-h-screen transition-all duration-300 pt-32 lg:pt-24">
+        <div className="max-w-4xl mx-auto px-6 pb-20">
           {renderContent()}
         </div>
       </main>
