@@ -24,67 +24,86 @@ export const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange }
   };
 
   return (
-    <>
-      {/* Mobile Header */}
-      <div className="lg:hidden fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-md border-b border-lavender-100 z-50 px-4 py-3 flex justify-between items-center">
-        <span className="font-bold text-mauve-600 tracking-wider text-sm">RESUME 2026</span>
-        <button onClick={() => setIsOpen(!isOpen)} className="p-2 text-mauve-600">
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
-          </svg>
-        </button>
+    <nav className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-md border-b border-lavender-100 z-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16">
+          
+          {/* Logo Section */}
+          <div className="flex-shrink-0 flex items-center gap-2 cursor-pointer" onClick={() => handleNav(NavigationTab.OVERVIEW)}>
+            <div className="font-bold text-xl text-transparent bg-clip-text bg-gradient-to-r from-lavender-500 to-rose-400">
+              Resume Cheat Code
+            </div>
+            <span className="hidden sm:inline-block px-2 py-0.5 rounded-full bg-slate-100 text-[10px] font-bold text-slate-500 uppercase tracking-widest border border-slate-200">
+              2026
+            </span>
+          </div>
+
+          {/* Desktop Navigation */}
+          <div className="hidden lg:flex items-center space-x-2">
+            {NAV_ITEMS.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => handleNav(item.id)}
+                className={`
+                  px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2
+                  ${activeTab === item.id 
+                    ? 'bg-lavender-50 text-mauve-600 shadow-sm border border-lavender-100' 
+                    : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800 border border-transparent'}
+                `}
+              >
+                {item.label}
+              </button>
+            ))}
+            
+            {/* Status Indicator */}
+            <div className="flex items-center gap-2 ml-4 pl-4 border-l border-slate-100 h-8">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                </span>
+                <span className="text-xs text-slate-500 font-medium">AI Active</span>
+            </div>
+          </div>
+
+          {/* Mobile Menu Button */}
+          <div className="flex items-center lg:hidden">
+            <button 
+              onClick={() => setIsOpen(!isOpen)}
+              className="p-2 rounded-md text-slate-400 hover:text-slate-500 hover:bg-slate-100 focus:outline-none"
+            >
+              <span className="sr-only">Open menu</span>
+              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
+              </svg>
+            </button>
+          </div>
+        </div>
       </div>
 
-      {/* Sidebar / Drawer */}
-      <nav className={`
-        fixed top-0 left-0 h-full bg-white border-r border-lavender-100 w-64 z-40 transition-transform duration-300 ease-in-out
-        ${isOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 lg:block
-      `}>
-        <div className="p-8 hidden lg:block">
-          <h1 className="font-bold text-2xl text-transparent bg-clip-text bg-gradient-to-r from-lavender-400 to-rose-400">
-            Resume<br/>Cheat Code
-          </h1>
-          <p className="text-xs text-mauve-500 mt-2 tracking-widest uppercase font-semibold">2026 Edition</p>
-        </div>
-
-        <div className="mt-20 lg:mt-4 px-4 space-y-2">
+      {/* Mobile Menu Dropdown */}
+      <div className={`lg:hidden border-t border-slate-100 bg-white transition-all duration-300 ease-in-out ${isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
+        <div className="px-2 pt-2 pb-4 space-y-1 shadow-lg">
           {NAV_ITEMS.map((item) => (
             <button
               key={item.id}
               onClick={() => handleNav(item.id)}
               className={`
-                w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200
-                ${activeTab === item.id 
-                  ? 'bg-lavender-50 text-mauve-600 shadow-sm border border-lavender-100' 
-                  : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800'}
+                block w-full text-left px-4 py-3 rounded-md text-base font-medium
+                  ${activeTab === item.id 
+                  ? 'bg-lavender-50 text-mauve-600' 
+                  : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'}
               `}
             >
-              <svg className={`w-5 h-5 ${activeTab === item.id ? 'text-rose-300' : 'text-slate-400'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={item.icon} />
-              </svg>
-              {item.label}
+              <div className="flex items-center gap-3">
+                  <svg className={`w-5 h-5 ${activeTab === item.id ? 'text-rose-300' : 'text-slate-400'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={item.icon} />
+                </svg>
+                {item.label}
+              </div>
             </button>
           ))}
         </div>
-
-        <div className="absolute bottom-8 left-0 w-full px-8">
-            <div className="p-4 rounded-xl bg-gradient-to-br from-lavender-100 to-rose-50 border border-white/50">
-                <p className="text-xs text-mauve-600 font-semibold mb-1">Status</p>
-                <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
-                    <span className="text-xs text-slate-500">Gemini AI Active</span>
-                </div>
-            </div>
-        </div>
-      </nav>
-
-      {/* Overlay for mobile */}
-      {isOpen && (
-        <div 
-          className="fixed inset-0 bg-black/20 backdrop-blur-sm z-30 lg:hidden"
-          onClick={() => setIsOpen(false)}
-        />
-      )}
-    </>
+      </div>
+    </nav>
   );
 };

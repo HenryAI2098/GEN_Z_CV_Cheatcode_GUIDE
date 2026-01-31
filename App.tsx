@@ -178,8 +178,8 @@ const App: React.FC = () => {
     <div className="min-h-screen bg-lavender-50/50 font-sans text-slate-800">
       <Navigation activeTab={activeTab} onTabChange={setActiveTab} />
       
-      <main className="lg:ml-64 min-h-screen transition-all duration-300">
-        <div className="max-w-4xl mx-auto px-6 py-20 lg:py-12">
+      <main className="min-h-screen transition-all duration-300 pt-16">
+        <div className="max-w-4xl mx-auto px-6 py-10 lg:py-12">
           {renderContent()}
         </div>
       </main>
